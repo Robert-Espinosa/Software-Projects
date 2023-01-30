@@ -1,4 +1,9 @@
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
+
 import components.naturalnumber.NaturalNumber;
+import components.naturalnumber.NaturalNumber2;
 
 /**
  * JUnit test fixture for {@code NaturalNumber}'s constructors and kernel
@@ -97,14 +102,302 @@ public abstract class NaturalNumberTest {
      */
     protected abstract NaturalNumber constructorRef(NaturalNumber n);
 
+    // TODO - add test cases for four constructors, multiplyBy10, divideBy10, isZero
+
+    /**
+     * Test that the no argument constructors are equal.
+     *
+     */
     @Test
-    public void testAdd() {
+    public void consuctorNoArgumentTest1() {
+        NaturalNumber testValue = this.constructorTest();
+        NaturalNumber expectedValue = this.constructorRef();
 
-        NaturalNumber test = new NaturalNumber3(2);
-        NaturalNumber expected = new NaturalNumber3(22);
-        
-        Naturaltest.multiplyBy10(2);
+        assertEquals(testValue, expectedValue);
 
+    }
+
+    /**
+     * Test that the routine case works for creating natural number with
+     * integer.
+     *
+     */
+    @Test
+    public void consuctorIntTest1() {
+        final int x = 6;
+        NaturalNumber testValue = this.constructorTest(x);
+        NaturalNumber expectedValue = this.constructorRef(x);
+
+        assertEquals(testValue, expectedValue);
+
+    }
+
+    /**
+     * Test that the routine case works for creating large value.
+     *
+     */
+    @Test
+    public void consuctorIntTest2() {
+        final int x = 1345432134;
+        NaturalNumber testValue = this.constructorTest(x);
+        NaturalNumber expectedValue = this.constructorRef(x);
+
+        assertEquals(testValue, expectedValue);
+    }
+
+    /**
+     * Test that edge for zero.
+     *
+     */
+    @Test
+    public void consuctorIntTest3() {
+        final int x = 0;
+        NaturalNumber testValue = this.constructorTest(x);
+        NaturalNumber expectedValue = this.constructorRef(x);
+
+        assertEquals(testValue, expectedValue);
+
+    }
+
+    /**
+     * Test that edge for zero as string.
+     *
+     */
+    @Test
+    public void consuctorStringTest1() {
+        String num = "0";
+        NaturalNumber testValue = this.constructorTest(num);
+        NaturalNumber expectedValue = this.constructorRef(num);
+
+        assertEquals(testValue, expectedValue);
+
+    }
+
+    /**
+     * Test that edge for large number as string.
+     *
+     */
+    @Test
+    public void consuctorStringTest2() {
+        String num = "1234892342";
+        NaturalNumber testValue = this.constructorTest(num);
+        NaturalNumber expectedValue = this.constructorRef(num);
+
+        assertEquals(testValue, expectedValue);
+
+    }
+
+    /**
+     * Test that edge for routine case number as string.
+     *
+     */
+    @Test
+    public void consuctorStringTest3() {
+        String num = "4332";
+        NaturalNumber testValue = this.constructorTest(num);
+        NaturalNumber expectedValue = this.constructorRef(num);
+
+        assertEquals(testValue, expectedValue);
+
+    }
+
+    /**
+     * Test that edge for naturalNumber case number as string.
+     *
+     */
+    @Test
+    public void consuctorNNTest1() {
+        NaturalNumber n = new NaturalNumber2();
+        NaturalNumber testValue = this.constructorTest(n);
+        NaturalNumber expectedValue = this.constructorRef(n);
+
+        assertEquals(testValue, expectedValue);
+
+    }
+
+    /**
+     * Test that edge for naturalNumber case number as string.
+     *
+     */
+    @Test
+    public void consuctorNNTest2() {
+        final int i = 324354212;
+        NaturalNumber n = new NaturalNumber2(i);
+        NaturalNumber testValue = this.constructorTest(n);
+        NaturalNumber expectedValue = this.constructorRef(n);
+
+        assertEquals(testValue, expectedValue);
+
+    }
+
+    /**
+     * Test that routine case for naturalNumber case.
+     *
+     */
+    @Test
+    public void consuctorNNTest3() {
+        final int i = 109;
+        NaturalNumber n = new NaturalNumber2(i);
+        NaturalNumber testValue = this.constructorTest(n);
+        NaturalNumber expectedValue = this.constructorRef(n);
+
+        assertEquals(testValue, expectedValue);
+
+    }
+
+    /**
+     * Test that routine case for mutiplyBy10.
+     *
+     */
+    @Test
+    public void mutiplyBy10Test1() {
+        final int ten = 10;
+        NaturalNumber testValue = this.constructorTest(ten);
+        NaturalNumber expectedValue = this.constructorRef(ten);
+
+        testValue.multiplyBy10(0);
+
+        expectedValue.multiplyBy10(0);
+
+        assertEquals(testValue, expectedValue);
+
+    }
+
+    /**
+     * Test that routine case for mutiplyBy10 but also implement adding part.
+     *
+     */
+    @Test
+    public void mutiplyBy10Test2() {
+        final int ten = 10;
+        final int five = 5;
+        NaturalNumber testValue = this.constructorTest(ten);
+        NaturalNumber expectedValue = this.constructorRef(ten);
+
+        testValue.multiplyBy10(five);
+
+        expectedValue.multiplyBy10(five);
+
+        assertEquals(testValue, expectedValue);
+
+    }
+
+    /**
+     * Test that small case for mutiplyBy10.
+     *
+     */
+    @Test
+    public void mutiplyBy10Test3() {
+        NaturalNumber testValue = this.constructorTest(0);
+        NaturalNumber expectedValue = this.constructorRef(0);
+
+        testValue.multiplyBy10(1);
+
+        expectedValue.multiplyBy10(1);
+
+        assertEquals(testValue, expectedValue);
+
+    }
+
+    /**
+     * Test that large case for mutiplyBy10.
+     *
+     */
+    @Test
+    public void mutiplyBy10Test4() {
+        final int large = 123432;
+        final int eight = 8;
+        NaturalNumber testValue = this.constructorTest(large);
+        NaturalNumber expectedValue = this.constructorRef(large);
+
+        testValue.multiplyBy10(eight);
+        expectedValue.multiplyBy10(eight);
+
+        assertEquals(testValue, expectedValue);
+
+    }
+
+    /**
+     * Test that small case for divideBy10.
+     *
+     */
+    @Test
+    public void divideBy10Test1() {
+        final int large = 100;
+        NaturalNumber testValue = this.constructorTest(large);
+        NaturalNumber expectedValue = this.constructorRef(large);
+
+        int returnVal = testValue.divideBy10();
+        int expectedVal = expectedValue.divideBy10();
+
+        assertEquals(testValue, expectedValue);
+        assertEquals(returnVal, expectedVal);
+
+    }
+
+    /**
+     * Test that length of one for case divideBy10.
+     *
+     */
+    @Test
+    public void divideBy10Test2() {
+        final int large = 5;
+        NaturalNumber testValue = this.constructorTest(large);
+        NaturalNumber expectedValue = this.constructorRef(large);
+
+        int returnVal = testValue.divideBy10();
+        int expectedVal = expectedValue.divideBy10();
+
+        assertEquals(testValue, expectedValue);
+        assertEquals(returnVal, expectedVal);
+
+    }
+
+    /**
+     * Test that large of one for case divideBy10.
+     *
+     */
+    @Test
+    public void divideBy10Test3() {
+        final int large = 50523454;
+        NaturalNumber testValue = this.constructorTest(large);
+        NaturalNumber expectedValue = this.constructorRef(large);
+
+        int returnVal = testValue.divideBy10();
+        int expectedVal = expectedValue.divideBy10();
+
+        assertEquals(testValue, expectedValue);
+        assertEquals(returnVal, expectedVal);
+
+    }
+
+    /**
+     * Test that iszero Works.
+     *
+     */
+    @Test
+    public void isZeroTest1() {
+
+        NaturalNumber testValue = this.constructorTest();
+
+        boolean x = testValue.isZero();
+
+        assertEquals(x, true);
+
+    }
+
+    /**
+     * Test that iszero Works for false.
+     *
+     */
+    @Test
+    public void isZeroTest2() {
+
+        NaturalNumber testValue = this.constructorTest(9);
+
+        boolean x = testValue.isZero();
+
+        assertEquals(x, false);
 
     }
 

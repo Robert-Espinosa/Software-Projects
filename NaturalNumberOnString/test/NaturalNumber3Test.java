@@ -36,46 +36,51 @@ public class NaturalNumber3Test extends NaturalNumberTest {
     @Override
     protected final NaturalNumber constructorTest(NaturalNumber n) {
 
-        NaturalNumber s = new NaturalNumber3(n);
+        // TODO - fill in body
+        NaturalNumber nn = new NaturalNumber3(n);
 
         // This line added just to make the component compilable.
-        return s;
+        return nn;
     }
 
     @Override
     protected final NaturalNumber constructorRef() {
 
-        NaturalNumber n = new NaturalNumber1L();
+        // TODO - fill in body
+        NaturalNumber nn = new NaturalNumber1L();
 
         // This line added just to make the component compilable.
-        return n;
+        return nn;
     }
 
     @Override
     protected final NaturalNumber constructorRef(int i) {
 
-        NaturalNumber n = new NaturalNumber1L(i);
+        // TODO - fill in body
+        NaturalNumber nn = new NaturalNumber1L(i);
 
         // This line added just to make the component compilable.
-        return n;
+        return nn;
     }
 
     @Override
     protected final NaturalNumber constructorRef(String s) {
 
-        NaturalNumber n = new NaturalNumber1L(s);
+        // TODO - fill in body
+        NaturalNumber nn = new NaturalNumber1L(s);
 
         // This line added just to make the component compilable.
-        return n;
+        return nn;
     }
 
     @Override
     protected final NaturalNumber constructorRef(NaturalNumber n) {
 
-        NaturalNumber s = new NaturalNumber1L(n);
+        // TODO - fill in body
+        NaturalNumber nn = new NaturalNumber1L(n);
 
         // This line added just to make the component compilable.
-        return s;
+        return nn;
     }
 
 }
