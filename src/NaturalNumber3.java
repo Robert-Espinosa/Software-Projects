@@ -146,6 +146,8 @@ public class NaturalNumber3 extends NaturalNumberSecondary {
         assert 0 <= k : "Violation of: 0 <= k";
         assert k < RADIX : "Violation of: k < 10";
 
+        // checks if parameter is 0 else creates an empty string else it adds k to the end of rep
+        
         String n = k + "";
         if (this.rep.isEmpty() && n.equals("0")) {
             this.createNewRep();
@@ -157,7 +159,10 @@ public class NaturalNumber3 extends NaturalNumberSecondary {
 
     @Override
     public final int divideBy10() {
-
+        
+        // divides by 10 by removing all characters except the last one 
+        // last character is the remainder so it is returned 
+        
         int length = this.rep.length();
         String last = "";
         int ret = 0;
