@@ -86,10 +86,53 @@ public abstract class MapTest {
     **/
     @Test
     public void map4constructorTest() {
-        Map<String, String> testValue = this.constructorTest();
-        Map<String, String> expected = this.constructorRef();
+        Map<String, String> testValue = this.createFromArgsTest();
+        Map<String, String> expected = this.createFromArgsRef();
 
         assertEquals(testValue, expected);
+    }
+
+    /**
+    *
+    **/
+    @Test
+    public void testAdd() {
+        Map<String, String> testValue = this.createFromArgsTest();
+        Map<String, String> expected = this.createFromArgsRef("alex", "arnone",
+                "robbie", "espinosa");
+        testValue.add("alex", "arnone");
+        testValue.add("robbie", "espinosa");
+
+        assertEquals(testValue, expected);
+    }
+
+    /**
+    *
+    **/
+    @Test
+    public void testRemove() {
+        Map<String, String> testValue = this.createFromArgsTest("alex",
+                "arnone", "robbie", "espinosa");
+        Map<String, String> expected = this.createFromArgsRef("robbie",
+                "espinosa");
+        testValue.remove("alex");
+
+        assertEquals(testValue, expected);
+    }
+
+    /**
+    *
+    **/
+    @Test
+    public void testValue() {
+        Map<String, String> testValue = this.createFromArgsTest("alex",
+                "arnone", "robbie", "espinosa");
+        Map<String, String> expected = this.createFromArgsRef("alex", "arnone",
+                "robbie", "espinosa");
+
+        String testString = testValue.value("alex");
+
+        assertEquals(testString, "arnone");
     }
 
 }
