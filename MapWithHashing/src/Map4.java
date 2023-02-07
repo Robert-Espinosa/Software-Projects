@@ -2,6 +2,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import components.map.Map;
+import components.map.Map1L;
 import components.map.MapSecondary;
 
 /**
@@ -75,10 +76,18 @@ public class Map4<K, V> extends MapSecondary<K, V> {
     private static int mod(int a, int b) {
         assert b > 0 : "Violation of: b > 0";
 
-        // TODO - fill in body
+        int mod = 0;
+
+        if (a < 0) {
+            //chops off end of decimal
+            int c = a / b;
+            mod = a - (c * b) + b;
+        } else {
+            mod = a % b;
+        }
 
         // This line added just to make the component compilable.
-        return 0;
+        return mod;
     }
 
     /**
@@ -102,9 +111,12 @@ public class Map4<K, V> extends MapSecondary<K, V> {
          * compile; as shown, it results in a warning about an unchecked
          * conversion, though it cannot fail.
          */
+        this.size = 0;
         this.hashTable = new Map[hashTableSize];
 
-        // TODO - fill in rest of body
+        for (int i = 0; i < this.hashTable.length; i++) {
+            this.hashTable[i] = new Map1L<K, V>();
+        }
 
     }
 
@@ -117,7 +129,7 @@ public class Map4<K, V> extends MapSecondary<K, V> {
      */
     public Map4() {
 
-        // TODO - fill in body
+        this.createNewRep(DEFAULT_HASH_TABLE_SIZE);
 
     }
 
@@ -131,7 +143,7 @@ public class Map4<K, V> extends MapSecondary<K, V> {
      */
     public Map4(int hashTableSize) {
 
-        // TODO - fill in body
+        this.createNewRep(hashTableSize);
 
     }
 
@@ -182,7 +194,9 @@ public class Map4<K, V> extends MapSecondary<K, V> {
         assert value != null : "Violation of: value is not null";
         assert !this.hasKey(key) : "Violation of: key is not in DOMAIN(this)";
 
-        // TODO - fill in body
+        int bucket = mod(key.hashCode(), this.hashTable.length);
+        this.hashTable[bucket].add(key, value);
+        this.size++;
 
     }
 
@@ -191,20 +205,31 @@ public class Map4<K, V> extends MapSecondary<K, V> {
         assert key != null : "Violation of: key is not null";
         assert this.hasKey(key) : "Violation of: key is in DOMAIN(this)";
 
-        // TODO - fill in body
+        int bucket = mod(key.hashCode(), this.hashTable.length);
+        Map.Pair<K, V> n = this.hashTable[bucket].remove(key);
+        this.size--;
 
         // This line added just to make the component compilable.
-        return null;
+        return n;
     }
 
     @Override
     public final Pair<K, V> removeAny() {
         assert this.size() > 0 : "Violation of: this /= empty_set";
 
-        // TODO - fill in body
+        int bucket = 0;
+        for (int i = 0; i < this.hashTable.length && bucket == 0; i++) {
+            if (this.hashTable[i].size() > 0) {
+                bucket = i;
+            }
+
+        }
+
+        Map.Pair<K, V> n = this.hashTable[bucket].removeAny();
+        this.size--;
 
         // This line added just to make the component compilable.
-        return null;
+        return n;
     }
 
     @Override
@@ -212,20 +237,20 @@ public class Map4<K, V> extends MapSecondary<K, V> {
         assert key != null : "Violation of: key is not null";
         assert this.hasKey(key) : "Violation of: key is in DOMAIN(this)";
 
-        // TODO - fill in body
+        int bucket = mod(key.hashCode(), this.hashTable.length);
 
         // This line added just to make the component compilable.
-        return null;
+        return this.hashTable[bucket].value(key);
     }
 
     @Override
     public final boolean hasKey(K key) {
         assert key != null : "Violation of: key is not null";
 
-        // TODO - fill in body
+        int bucket = mod(key.hashCode(), this.hashTable.length);
 
         // This line added just to make the component compilable.
-        return false;
+        return this.hashTable[bucket].hasKey(key);
     }
 
     @Override
@@ -234,7 +259,7 @@ public class Map4<K, V> extends MapSecondary<K, V> {
         // TODO - fill in body
 
         // This line added just to make the component compilable.
-        return 0;
+        return this.size;
     }
 
     @Override
