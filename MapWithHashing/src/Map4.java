@@ -35,7 +35,7 @@ import components.map.MapSecondary;
  *          (pf)
  * </pre>
  *
- * @author Put your name here
+ * @author Robbie Espinosa and Alex Arnone
  *
  */
 public class Map4<K, V> extends MapSecondary<K, V> {
@@ -79,14 +79,15 @@ public class Map4<K, V> extends MapSecondary<K, V> {
         int mod = 0;
 
         if (a < 0) {
-            //chops off end of decimal
+            // chops off end of decimal and b cannot be less than zero so it
+            // can't break.
             int c = a / b;
             mod = a - (c * b) + b;
         } else {
             mod = a % b;
         }
 
-        // This line added just to make the component compilable.
+        //return the mod using clock arithmatic
         return mod;
     }
 
@@ -173,6 +174,7 @@ public class Map4<K, V> extends MapSecondary<K, V> {
         assert source != this : "Violation of: source is not this";
         assert source instanceof Map4<?, ?> : ""
                 + "Violation of: source is of dynamic type Map4<?,?>";
+
         /*
          * This cast cannot fail since the assert above would have stopped
          * execution in that case: source must be of dynamic type Map4<?,?>, and
@@ -194,6 +196,13 @@ public class Map4<K, V> extends MapSecondary<K, V> {
         assert value != null : "Violation of: value is not null";
         assert !this.hasKey(key) : "Violation of: key is not in DOMAIN(this)";
 
+        /*
+         * In order to find out the bucket we use the mod method with hashcode
+         * and hash table length. We then know what bucket to add the key and
+         * pair to hash table. Finally we have the size variable that we will
+         * use to track throughout program.
+         */
+
         int bucket = mod(key.hashCode(), this.hashTable.length);
         this.hashTable[bucket].add(key, value);
         this.size++;
@@ -205,11 +214,17 @@ public class Map4<K, V> extends MapSecondary<K, V> {
         assert key != null : "Violation of: key is not null";
         assert this.hasKey(key) : "Violation of: key is in DOMAIN(this)";
 
+        /*
+         * Similarly to the add method this time we are looking to remove so we
+         * need to find the bucket that the key is in. Then we are able to use
+         * the map pair method to store the removed value and return it. Finally
+         * take one away from size because we removed.
+         */
+
         int bucket = mod(key.hashCode(), this.hashTable.length);
         Map.Pair<K, V> n = this.hashTable[bucket].remove(key);
         this.size--;
 
-        // This line added just to make the component compilable.
         return n;
     }
 
@@ -217,6 +232,14 @@ public class Map4<K, V> extends MapSecondary<K, V> {
     public final Pair<K, V> removeAny() {
         assert this.size() > 0 : "Violation of: this /= empty_set";
 
+        /*
+         * We are able to just remove any value we like because we are the
+         * Implementers of the remove any method. We search through all the
+         * buckets and find the first one that has a value and return it. This
+         * also breaks the loop because bucket will no longer equal 0. finally
+         * we remove any map that was in the bucket.
+         *
+         */
         int bucket = 0;
         for (int i = 0; i < this.hashTable.length && bucket == 0; i++) {
             if (this.hashTable[i].size() > 0) {
@@ -237,9 +260,11 @@ public class Map4<K, V> extends MapSecondary<K, V> {
         assert key != null : "Violation of: key is not null";
         assert this.hasKey(key) : "Violation of: key is in DOMAIN(this)";
 
+        /*
+         * Find the bucket and then simply return the value of given key.
+         */
         int bucket = mod(key.hashCode(), this.hashTable.length);
 
-        // This line added just to make the component compilable.
         return this.hashTable[bucket].value(key);
     }
 
@@ -247,6 +272,9 @@ public class Map4<K, V> extends MapSecondary<K, V> {
     public final boolean hasKey(K key) {
         assert key != null : "Violation of: key is not null";
 
+        /*
+         * find the bucket and then call the has key method on hashtable.
+         */
         int bucket = mod(key.hashCode(), this.hashTable.length);
 
         // This line added just to make the component compilable.
@@ -255,10 +283,11 @@ public class Map4<K, V> extends MapSecondary<K, V> {
 
     @Override
     public final int size() {
+        /*
+         * Because we kept track of size each time we are able to just return
+         * the size.
+         */
 
-        // TODO - fill in body
-
-        // This line added just to make the component compilable.
         return this.size;
     }
 
