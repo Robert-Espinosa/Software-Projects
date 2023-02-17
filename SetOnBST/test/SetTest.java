@@ -145,21 +145,40 @@ public abstract class SetTest {
 
     }
 
+      /**
+    *
+    */
+    @Test
+    public void removeAny1() {
+
+        Set<String> test = this.createFromArgsTest("alex");
+        test.removeAny();
+        assertEquals(test.size(), 0);
+
+        Set<String> expected = this.createFromArgsRef();
+
+        assertEquals(test, expected);
+
+    }
+
     /**
     *
     */
     @Test
-    public void removeAnyTest() {
+    public void removeAny2() {
 
-        Set<String> test = this.createFromArgsTest("alex");
-        Set<String> expected = this.createFromArgsRef();
+        Set<String> test = this.createFromArgsTest("Robbie", "alex", "larry");
 
-        String removed = test.remove("alex");
+        String s = test.removeAny();
+        assertEquals(test.size(), 2);
 
-        assertEquals("alex", removed);
-        assertEquals(expected, test);
+        Set<String> expected = this.createFromArgsRef("Robbie", "alex",
+                "larry");
+        expected.remove(s);
 
-    }
+        assertEquals(test, expected);
+
+    
 
     /**
     *
