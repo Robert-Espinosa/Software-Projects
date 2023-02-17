@@ -1,5 +1,7 @@
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Test;
+
 import components.set.Set;
 
 /**
@@ -73,11 +75,25 @@ public abstract class SetTest {
     /**
      *
      */
+    @Test
     public void constructorTest1() {
+
         Set<String> test = this.createFromArgsTest("alex", "robbie");
         Set<String> ref = this.createFromArgsRef("alex", "robbie");
+        assertEquals(ref, test);
 
-        assertEquals(test, ref);
+    }
+
+    /**
+    *
+    */
+    @Test
+    public void containsTest() {
+
+        Set<String> test = this.constructorTest();
+        Set<String> ref = this.constructorRef();
+
+        assertEquals(ref, test);
 
     }
 
