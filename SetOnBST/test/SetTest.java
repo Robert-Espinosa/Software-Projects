@@ -80,7 +80,7 @@ public abstract class SetTest {
 
         Set<String> test = this.createFromArgsTest("alex", "robbie");
         Set<String> expected = this.createFromArgsRef("alex", "robbie");
-        assertEquals(test, expected);
+        assertEquals(expected, test);
 
     }
 
@@ -95,7 +95,7 @@ public abstract class SetTest {
                 "matthew");
 
         test.add("matthew");
-        assertEquals(test, expected);
+        assertEquals(expected, test);
 
     }
 
@@ -109,7 +109,7 @@ public abstract class SetTest {
         Set<String> expected = this.createFromArgsRef("matthew");
 
         test.add("matthew");
-        assertEquals(test, expected);
+        assertEquals(expected, test);
 
     }
 
@@ -124,7 +124,39 @@ public abstract class SetTest {
 
         String removed = test.remove("robbie");
 
-        assertEquals(removed, "robbie");
+        assertEquals("robbie", removed);
+        assertEquals(expected, test);
+
+    }
+
+    /**
+    *
+    */
+    @Test
+    public void removeTestEdge() {
+
+        Set<String> test = this.createFromArgsTest("alex");
+        Set<String> expected = this.createFromArgsRef();
+
+        String removed = test.remove("alex");
+
+        assertEquals("alex", removed);
+        assertEquals(expected, test);
+
+    }
+
+    /**
+    *
+    */
+    @Test
+    public void removeAnyTest() {
+
+        Set<String> test = this.createFromArgsTest("alex");
+        Set<String> expected = this.createFromArgsRef();
+
+        String removed = test.remove("alex");
+
+        assertEquals("alex", removed);
         assertEquals(expected, test);
 
     }
@@ -138,8 +170,67 @@ public abstract class SetTest {
         Set<String> test = this.createFromArgsTest("alex", "robbie");
         Set<String> expected = this.createFromArgsRef("alex", "robbie");
 
-        assertEquals(test.contains("alex"), expected.contains("alex"));
-        assertEquals(test, expected);
+        assertEquals(true, test.contains("alex"));
+        assertEquals(expected, test);
+
+    }
+
+    /**
+    *
+    */
+    @Test
+    public void containsTest2() {
+
+        Set<String> test = this.createFromArgsTest("alex", "robbie");
+        Set<String> expected = this.createFromArgsRef("alex", "robbie");
+
+        assertEquals(false, test.contains("matthew"));
+        assertEquals(expected, test);
+
+    }
+
+    /**
+    *
+    */
+    @Test
+    public void containsTestEdge() {
+
+        Set<String> test = this.createFromArgsTest();
+        Set<String> expected = this.createFromArgsRef();
+
+        assertEquals(false, test.contains("matthew"));
+        assertEquals(expected, test);
+
+    }
+
+    /**
+    *
+    */
+    @Test
+    public void sizeTest() {
+
+        Set<String> test = this.createFromArgsTest("alex", "robbie", "matthew");
+        Set<String> expected = this.createFromArgsRef("alex", "robbie",
+                "matthew");
+
+        int size = test.size();
+        assertEquals(3, size);
+        assertEquals(expected, test);
+
+    }
+
+    /**
+    *
+    */
+    @Test
+    public void sizeTestEdge() {
+
+        Set<String> test = this.createFromArgsTest();
+        Set<String> expected = this.createFromArgsRef();
+
+        int size = test.size();
+        assertEquals(0, size);
+        assertEquals(expected, test);
 
     }
 

@@ -64,6 +64,8 @@ public class Set3a<T extends Comparable<T>> extends SetSecondary<T> {
             if (!root.equals(x)) {
                 returnValue = returnValue || isInTree(leftTree, x);
                 returnValue = returnValue || isInTree(rightTree, x);
+            } else {
+                returnValue = true;
             }
 
             t.assemble(root, leftTree, rightTree);
