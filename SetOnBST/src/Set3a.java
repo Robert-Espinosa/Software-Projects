@@ -58,23 +58,19 @@ public class Set3a<T extends Comparable<T>> extends SetSecondary<T> {
         BinaryTree<T> rightTree = t.newInstance();
         Boolean returnValue = false;
 
-        while (t.size() > 0) {
+        if (t.size() > 0) {
             T root = t.disassemble(leftTree, rightTree);
-            Boolean leftCheck = false;
-            Boolean rightCheck = false;
+
             if (!root.equals(x)) {
-                leftCheck = isInTree(leftTree, x);
-                rightCheck = isInTree(rightTree, x);
-            }
-            if (leftCheck || rightCheck) {
-                returnValue = true;
+                returnValue = returnValue || isInTree(leftTree, x);
+                returnValue = returnValue || isInTree(rightTree, x);
             }
 
             t.assemble(root, leftTree, rightTree);
         }
 
         // This line added just to make the component compilable.
-        return false;
+        return returnValue;
     }
 
     /**
@@ -96,7 +92,21 @@ public class Set3a<T extends Comparable<T>> extends SetSecondary<T> {
         assert t != null : "Violation of: t is not null";
         assert x != null : "Violation of: x is not null";
 
-        // TODO - fill in body
+        BinaryTree<T> leftTree = t.newInstance();
+        BinaryTree<T> rightTree = t.newInstance();
+
+        while (t.size() > 0) {
+            T root = t.disassemble(leftTree, rightTree);
+            if (x.compareTo(root) > 0) {
+                insertInTree(rightTree, x);
+                t.assemble(root, leftTree, rightTree);
+            } else if (x.compareTo(root) < 0) {
+                insertInTree(leftTree, x);
+                t.assemble(root, leftTree, rightTree);
+            } else {
+                t.assemble(x, leftTree, rightTree);
+            }
+        }
 
     }
 
@@ -119,10 +129,23 @@ public class Set3a<T extends Comparable<T>> extends SetSecondary<T> {
         assert t != null : "Violation of: t is not null";
         assert t.size() > 0 : "Violation of: |t| > 0";
 
-        // TODO - fill in body
+        BinaryTree<T> leftTree = t.newInstance();
+        BinaryTree<T> rightTree = t.newInstance();
+        T smallest = t.root();
 
-        // This line added just to make the component compilable.
-        return null;
+        if (t.size() > 0) {
+            T root = t.disassemble(leftTree, rightTree);
+            if (leftTree.size() > 0) {
+                smallest = removeSmallest(leftTree);
+                t.assemble(root, leftTree, rightTree);
+            } else {
+                t.transferFrom(rightTree);
+            }
+
+        }
+
+        // this line added just to make the component compilable.
+        return smallest;
     }
 
     /**
@@ -149,10 +172,32 @@ public class Set3a<T extends Comparable<T>> extends SetSecondary<T> {
         assert x != null : "Violation of: x is not null";
         assert t.size() > 0 : "Violation of: x is in labels(t)";
 
-        // TODO - fill in body
+        BinaryTree<T> leftTree = t.newInstance();
+        BinaryTree<T> rightTree = t.newInstance();
+        T returnValue = t.root();
 
+        if (t.size() > 0) {
+            T root = t.disassemble(leftTree, rightTree);
+            if (!root.equals(x)) {
+                if (x.compareTo(root) > 0) {
+                    returnValue = removeFromTree(rightTree, x);
+                } else if (x.compareTo(root) < 0) {
+                    returnValue = removeFromTree(leftTree, x);
+                }
+                t.assemble(root, leftTree, rightTree);
+            } else {
+                if (rightTree.size() > 0) {
+                    root = removeSmallest(rightTree);
+                    t.assemble(root, leftTree, rightTree);
+                } else {
+                    t.transferFrom(leftTree);
+                }
+
+            }
+
+        }
         // This line added just to make the component compilable.
-        return null;
+        return returnValue;
     }
 
     /**
@@ -233,7 +278,6 @@ public class Set3a<T extends Comparable<T>> extends SetSecondary<T> {
 
         T returnValue = removeFromTree(this.tree, x);
 
-        // This line added just to make the component compilable.
         return returnValue;
     }
 
@@ -243,7 +287,6 @@ public class Set3a<T extends Comparable<T>> extends SetSecondary<T> {
 
         T returnValue = removeSmallest(this.tree);
 
-        // This line added just to make the component compilable.
         return returnValue;
     }
 
@@ -253,14 +296,12 @@ public class Set3a<T extends Comparable<T>> extends SetSecondary<T> {
 
         boolean returnValue = isInTree(this.tree, x);
 
-        // This line added just to make the component compilable.
         return returnValue;
     }
 
     @Override
     public final int size() {
 
-        // This line added just to make the component compilable.
         return this.tree.size();
     }
 
