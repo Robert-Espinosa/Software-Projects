@@ -137,6 +137,48 @@ public abstract class SortingMachineTest {
         assertEquals(mExpected, m);
     }
 
+    @Test
+    public final void testAdd() {
+        SortingMachine<String> test = this.createFromArgsTest(ORDER, true,
+                "robbie", "alex");
+        SortingMachine<String> expected = this.createFromArgsTest(ORDER, true,
+                "robbie", "alex", "jackson");
+
+        test.add("jackson");
+        assertEquals(expected, test);
+    }
+
+    @Test
+    public final void testAdd2() {
+        SortingMachine<String> test = this.createFromArgsTest(ORDER, true,
+                "robbie", "alex", "jackson", "matt", "collin");
+        SortingMachine<String> expected = this.createFromArgsRef(ORDER, true,
+                "robbie", "alex", "jackson", "matt", "collin", "gus");
+
+        test.add("gus");
+        assertEquals(expected, test);
+    }
+
+    @Test
+    public final void testChangeToExtractionModeEmptyTest() {
+        SortingMachine<String> test = this.createFromArgsTest(ORDER, true);
+        SortingMachine<String> expected = this.createFromArgsTest(ORDER, false);
+
+        test.changeToExtractionMode();
+        assertEquals(expected, test);
+    }
+
+    @Test
+    public final void testChangeToExtractionModeEmpty() {
+        SortingMachine<String> test = this.createFromArgsTest(ORDER, true,
+                "robbie", "nate", "ben");
+        SortingMachine<String> expected = this.createFromArgsTest(ORDER, false,
+                "robbie", "nate", "ben");
+
+        test.changeToExtractionMode();
+        assertEquals(expected, test);
+    }
+
     // TODO - add test cases for add, changeToExtractionMode, removeFirst,
     // isInInsertionMode, order, and size
 
