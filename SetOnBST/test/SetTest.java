@@ -78,8 +78,8 @@ public abstract class SetTest {
     @Test
     public void constructorTest1() {
 
-        Set<String> test = this.createFromArgsTest("alex", "robbie");
-        Set<String> expected = this.createFromArgsRef("alex", "robbie");
+        Set<String> test = this.constructorTest();
+        Set<String> expected = this.constructorTest();
         assertEquals(expected, test);
 
     }
@@ -145,7 +145,7 @@ public abstract class SetTest {
 
     }
 
-      /**
+    /**
     *
     */
     @Test
@@ -177,8 +177,7 @@ public abstract class SetTest {
         expected.remove(s);
 
         assertEquals(test, expected);
-
-    
+    }
 
     /**
     *

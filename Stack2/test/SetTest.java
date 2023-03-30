@@ -1,0 +1,143 @@
+import static org.junit.Assert.assertEquals;
+
+import java.util.Stack;
+
+import org.junit.Test;
+
+import components.set.Set;
+
+/**
+ * JUnit test fixture for {@code Stack<String>}'s constructor and kernel
+ * methods.
+ *
+ * @author Put your name here
+ *
+ */
+public abstract class StackTest {
+
+    /**
+     * Invokes the appropriate {@code Stack} constructor for the implementation
+     * under test and returns the result.
+     *
+     * @return the new stack
+     * @ensures constructorTest = <>
+     */
+    protected abstract Stack<String> constructorTest();
+
+    /**
+     * Invokes the appropriate {@code Stack} constructor for the reference
+     * implementation and returns the result.
+     *
+     * @return the new stack
+     * @ensures constructorRef = <>
+     */
+    protected abstract Stack<String> constructorRef();
+
+    /**
+     *
+     * Creates and returns a {@code Stack<String>} of the implementation under
+     * test type with the given entries.
+     *
+     * @param args
+     *            the entries for the stack
+     * @return the constructed stack
+     * @ensures createFromArgsTest = [entries in args]
+     */
+    private Stack<String> createFromArgsTest(String... args) {
+        Stack<String> stack = this.constructorTest();
+        for (String s : args) {
+            stack.push(s);
+        }
+        stack.flip();
+        return stack;
+    }
+
+    /**
+     *
+     * Creates and returns a {@code Stack<String>} of the reference
+     * implementation type with the given entries.
+     *
+     * @param args
+     *            the entries for the stack
+     * @return the constructed stack
+     * @ensures createFromArgsRef = [entries in args]
+     */
+    private Stack<String> createFromArgsRef(String... args) {
+        Stack<String> stack = this.constructorRef();
+        for (String s : args) {
+            stack.push(s);
+        }
+        stack.flip();
+        return stack;
+    }
+
+    // TODO - add test cases for constructor, push, pop, and length
+    @Test
+    public void constructorTest1() {
+
+        Stack<String> test = this.constructorTest();
+        Stack<String> expected = this.constructorTest();
+        assertEquals(expected, test);
+
+    }
+
+    /**
+    *
+    */
+    @Test
+    public void addTest() {
+
+        Stack<String> test = this.createFromArgsTest("alex", "robbie");
+        Stack<String> expected = this.createFromArgsRef("alex", "robbie",
+                "matthew");
+
+        test.push("matthew");
+        assertEquals(expected, test);
+
+    }
+
+    /**
+    *
+    */
+    @Test
+    public void addTestEdge() {
+
+        Stack<String> test = this.createFromArgsTest();
+        Stack<String> expected = this.createFromArgsRef("matthew");
+
+        test.push("matthew");
+        assertEquals(expected, test);
+
+    }
+
+    /**
+    *
+    */
+    @Test
+    public void removeTest() {
+
+        Stack<String> test = this.createFromArgsTest("alex", "robbie");
+        Stack<String> expected = this.createFromArgsRef("alex");
+
+        String removed = test.pop();
+
+        assertEquals("robbie", removed);
+        assertEquals(expected, test);
+
+    }
+
+    /**
+    *
+    */
+    @Test
+    public void removeTestEdge() {
+
+        Stack<String> test = this.createFromArgsTest("alex");
+        Stack<String> expected = this.createFromArgsRef();
+
+        String removed = test.pop();
+
+        assertEquals("alex", removed);
+        assertEquals(expected, test);
+
+}

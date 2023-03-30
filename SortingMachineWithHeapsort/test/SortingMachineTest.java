@@ -137,6 +137,8 @@ public abstract class SortingMachineTest {
         assertEquals(mExpected, m);
     }
 
+    // TODO - add test cases for add, changeToExtractionMode, removeFirst,
+    // isInInsertionMode, order, and size
     @Test
     public final void testAdd() {
         SortingMachine<String> test = this.createFromArgsTest(ORDER, true,
@@ -160,7 +162,104 @@ public abstract class SortingMachineTest {
     }
 
     @Test
+    public final void sizeTest1() {
+        //test a normal size case of size 2
+        int size = 4;
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, true, "green",
+                "blue", "red", "purple");
+        SortingMachine<String> mExpected = this.createFromArgsTest(ORDER, true,
+                "green", "blue", "red", "purple");
+
+        assertEquals(size, m.size());
+        assertEquals(m, mExpected);
+
+    }
+
+    @Test
+    public final void sizeTest2() {
+        //test the size an empty sortingMachine
+
+        int size = 0;
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, true);
+        SortingMachine<String> mExpected = this.createFromArgsTest(ORDER, true);
+
+        assertEquals(size, m.size());
+        assertEquals(m, mExpected);
+
+    }
+
+    @Test
+    public final void sizeTest3() {
+        //test the size or nomal case
+
+        int size = 2;
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, true, "green",
+                "blue");
+        SortingMachine<String> mExpected = this.createFromArgsTest(ORDER, true,
+                "green", "blue");
+
+        assertEquals(size, m.size());
+        assertEquals(m, mExpected);
+
+    }
+
+    @Test
+    public final void sizeTest4() {
+        //test with extraction mode false normal case
+
+        int size = 2;
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, false,
+                "green", "blue");
+        SortingMachine<String> mExpected = this.createFromArgsTest(ORDER, false,
+                "green", "blue");
+
+        assertEquals(size, m.size());
+        assertEquals(m, mExpected);
+
+    }
+
+    @Test
+    public final void sizeTest5() {
+        //test with extraction mode false empty case
+
+        int size = 0;
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, false);
+        SortingMachine<String> mExpected = this.createFromArgsTest(ORDER,
+                false);
+
+        assertEquals(size, m.size());
+        assertEquals(m, mExpected);
+
+    }
+
+    @Test
+    public final void orderTest() {
+        //test case for normal order and check that origanl order is
+        // equal to m.order and that this doesn't effect anything else
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, true, "a",
+                "b", "c");
+        SortingMachine<String> mExpected = this.createFromArgsRef(ORDER, true,
+                "a", "b", "c");
+
+        assertEquals(ORDER, m.order());
+        assertEquals(m, mExpected);
+    }
+
+    @Test
+    public final void orderTest2() {
+        //test case for when extraction mode is false
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, false, "a",
+                "b", "c");
+        SortingMachine<String> mExpected = this.createFromArgsRef(ORDER, false,
+                "a", "b", "c");
+
+        assertEquals(ORDER, m.order());
+        assertEquals(m, mExpected);
+    }
+
+    @Test
     public final void testChangeToExtractionModeEmptyTest() {
+        //checks that changing to extraction mode works with empty
         SortingMachine<String> test = this.createFromArgsTest(ORDER, true);
         SortingMachine<String> expected = this.createFromArgsTest(ORDER, false);
 
@@ -169,7 +268,9 @@ public abstract class SortingMachineTest {
     }
 
     @Test
-    public final void testChangeToExtractionModeEmpty() {
+    public final void testChangeToExtractionModeNonEmpty() {
+        //checks that changing to extraction mode works with a non empty
+
         SortingMachine<String> test = this.createFromArgsTest(ORDER, true,
                 "robbie", "nate", "ben");
         SortingMachine<String> expected = this.createFromArgsTest(ORDER, false,
@@ -179,7 +280,97 @@ public abstract class SortingMachineTest {
         assertEquals(expected, test);
     }
 
-    // TODO - add test cases for add, changeToExtractionMode, removeFirst,
-    // isInInsertionMode, order, and size
+    @Test
+    public final void removeFirst() {
+        //check That normal remove first case works
+        SortingMachine<String> test = this.createFromArgsTest(ORDER, false,
+                "robbie", "nate", "ben");
+        SortingMachine<String> expected = this.createFromArgsTest(ORDER, false,
+                "robbie", "nate");
 
+        String name = test.removeFirst();
+        assertEquals(expected, test);
+        assertEquals("ben", name);
+
+    }
+
+    @Test
+    public final void removeFirst2() {
+        //check That edge case works with only one string
+
+        SortingMachine<String> test = this.createFromArgsTest(ORDER, false,
+                "rick");
+        SortingMachine<String> expected = this.createFromArgsTest(ORDER, false);
+
+        String name = test.removeFirst();
+        assertEquals(expected, test);
+        assertEquals("rick", name);
+    }
+
+    @Test
+    public final void isInInsertionModeTest() {
+        /*
+         * check that normal case works for true and that sorting machine was
+         * unaffected by call.
+         */
+        SortingMachine<String> test = this.createFromArgsTest(ORDER, true,
+                "rick");
+        SortingMachine<String> expected = this.createFromArgsTest(ORDER, true,
+                "rick");
+
+        Boolean returnVal = test.isInInsertionMode();
+
+        assertEquals(expected, test);
+        assertEquals(true, returnVal);
+    }
+
+    @Test
+    public final void isInInsertionModeTest2() {
+        /*
+         * check that normal case works for false and that sorting machine was
+         * unaffected by call.
+         */
+
+        SortingMachine<String> test = this.createFromArgsTest(ORDER, false,
+                "rick");
+        SortingMachine<String> expected = this.createFromArgsTest(ORDER, false,
+                "rick");
+
+        Boolean returnVal = test.isInInsertionMode();
+
+        assertEquals(expected, test);
+        assertEquals(false, returnVal);
+    }
+
+    @Test
+    public final void isInInsertionModeTest3() {
+        /*
+         * check that edge case works for false and that sorting machine was
+         * unaffected by call.
+         */
+
+        SortingMachine<String> test = this.createFromArgsTest(ORDER, false);
+        SortingMachine<String> expected = this.createFromArgsTest(ORDER, false);
+
+        Boolean returnVal = test.isInInsertionMode();
+
+        assertEquals(expected, test);
+        assertEquals(false, returnVal);
+    }
+
+    @Test
+    public final void isInInsertionModeTest4() {
+        /*
+         * check that edge case works for true and that sorting machine was
+         * unaffected by call.
+         */
+
+        SortingMachine<String> test = this.createFromArgsTest(ORDER, true);
+        SortingMachine<String> expected = this.createFromArgsTest(ORDER, true);
+
+        Boolean returnVal = test.isInInsertionMode();
+
+        assertEquals(expected, test);
+        assertEquals(true, returnVal);
+    }
 }
