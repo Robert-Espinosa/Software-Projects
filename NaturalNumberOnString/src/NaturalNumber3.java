@@ -14,7 +14,7 @@ import components.naturalnumber.NaturalNumberSecondary;
  *         else the decimal number whose ordinary depiction is $this.rep]
  * </pre>
  *
- * @author Alexander Arnone
+ * @author Alexander Arnone and Robbie Espinosa
  *
  */
 public class NaturalNumber3 extends NaturalNumberSecondary {
@@ -54,7 +54,8 @@ public class NaturalNumber3 extends NaturalNumberSecondary {
      * Constructor from {@code int}.
      *
      * @param i
-     *            {@code int} to initialize from
+     *            {@code int} to initialize from In our cases we would like the
+     *            rep to be empty when dealing with natural numbers
      */
     public NaturalNumber3(int i) {
         assert i >= 0 : "Violation of: i >= 0";
@@ -71,7 +72,9 @@ public class NaturalNumber3 extends NaturalNumberSecondary {
      * Constructor from {@code String}.
      *
      * @param s
-     *            {@code String} to initialize from
+     *            {@code String} to initialize from Similar case for all
+     *            constructors is to check for zero and set the rep to be an
+     *            empty string.
      */
     public NaturalNumber3(String s) {
         assert s != null : "Violation of: s is not null";
@@ -90,8 +93,11 @@ public class NaturalNumber3 extends NaturalNumberSecondary {
      * Constructor from {@code NaturalNumber}.
      *
      * @param n
-     *            {@code NaturalNumber} to initialize from
+     *            {@code NaturalNumber} to initialize from Similar case for all
+     *            constructors is to check for zero and set the rep to be an
+     *            empty string.
      */
+
     public NaturalNumber3(NaturalNumber n) {
         assert n != null : "Violation of: n is not null";
 
@@ -146,6 +152,9 @@ public class NaturalNumber3 extends NaturalNumberSecondary {
         assert 0 <= k : "Violation of: 0 <= k";
         assert k < RADIX : "Violation of: k < 10";
 
+        // checks if parameter is 0 else creates an
+        //empty string else it adds k to the end of rep
+
         String n = k + "";
         if (this.rep.isEmpty() && n.equals("0")) {
             this.createNewRep();
@@ -157,6 +166,9 @@ public class NaturalNumber3 extends NaturalNumberSecondary {
 
     @Override
     public final int divideBy10() {
+
+        // divides by 10 by removing all characters except the last one.
+        // last character is the remainder so it is returned
 
         int length = this.rep.length();
         String last = "";
@@ -176,6 +188,9 @@ public class NaturalNumber3 extends NaturalNumberSecondary {
         return ret;
     }
 
+    /**
+     *
+     */
     @Override
     public final boolean isZero() {
 

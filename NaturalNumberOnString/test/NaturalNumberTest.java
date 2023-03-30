@@ -253,11 +253,9 @@ public abstract class NaturalNumberTest {
     public void mutiplyBy10Test1() {
         final int ten = 10;
         NaturalNumber testValue = this.constructorTest(ten);
-        NaturalNumber expectedValue = this.constructorRef(ten);
+        NaturalNumber expectedValue = this.constructorRef(100);
 
         testValue.multiplyBy10(0);
-
-        expectedValue.multiplyBy10(0);
 
         assertEquals(testValue, expectedValue);
 
@@ -269,14 +267,12 @@ public abstract class NaturalNumberTest {
      */
     @Test
     public void mutiplyBy10Test2() {
-        final int ten = 10;
-        final int five = 5;
-        NaturalNumber testValue = this.constructorTest(ten);
-        NaturalNumber expectedValue = this.constructorRef(ten);
+        final int thirteen = 13;
+        final int eight = 8;
+        NaturalNumber testValue = this.constructorTest(thirteen);
+        NaturalNumber expectedValue = this.constructorRef(138);
 
-        testValue.multiplyBy10(five);
-
-        expectedValue.multiplyBy10(five);
+        testValue.multiplyBy10(eight);
 
         assertEquals(testValue, expectedValue);
 
@@ -289,11 +285,9 @@ public abstract class NaturalNumberTest {
     @Test
     public void mutiplyBy10Test3() {
         NaturalNumber testValue = this.constructorTest(0);
-        NaturalNumber expectedValue = this.constructorRef(0);
+        NaturalNumber expectedValue = this.constructorRef(1);
 
         testValue.multiplyBy10(1);
-
-        expectedValue.multiplyBy10(1);
 
         assertEquals(testValue, expectedValue);
 
@@ -308,10 +302,9 @@ public abstract class NaturalNumberTest {
         final int large = 123432;
         final int eight = 8;
         NaturalNumber testValue = this.constructorTest(large);
-        NaturalNumber expectedValue = this.constructorRef(large);
+        NaturalNumber expectedValue = this.constructorRef(1234328);
 
         testValue.multiplyBy10(eight);
-        expectedValue.multiplyBy10(eight);
 
         assertEquals(testValue, expectedValue);
 
@@ -325,13 +318,12 @@ public abstract class NaturalNumberTest {
     public void divideBy10Test1() {
         final int large = 100;
         NaturalNumber testValue = this.constructorTest(large);
-        NaturalNumber expectedValue = this.constructorRef(large);
+        NaturalNumber expectedValue = this.constructorRef(10);
 
         int returnVal = testValue.divideBy10();
-        int expectedVal = expectedValue.divideBy10();
 
         assertEquals(testValue, expectedValue);
-        assertEquals(returnVal, expectedVal);
+        assertEquals(returnVal, 0);
 
     }
 
@@ -343,13 +335,12 @@ public abstract class NaturalNumberTest {
     public void divideBy10Test2() {
         final int large = 5;
         NaturalNumber testValue = this.constructorTest(large);
-        NaturalNumber expectedValue = this.constructorRef(large);
+        NaturalNumber expectedValue = this.constructorRef(0);
 
         int returnVal = testValue.divideBy10();
-        int expectedVal = expectedValue.divideBy10();
 
         assertEquals(testValue, expectedValue);
-        assertEquals(returnVal, expectedVal);
+        assertEquals(returnVal, 5);
 
     }
 
@@ -361,13 +352,12 @@ public abstract class NaturalNumberTest {
     public void divideBy10Test3() {
         final int large = 50523454;
         NaturalNumber testValue = this.constructorTest(large);
-        NaturalNumber expectedValue = this.constructorRef(large);
+        NaturalNumber expectedValue = this.constructorRef(5052345);
 
         int returnVal = testValue.divideBy10();
-        int expectedVal = expectedValue.divideBy10();
 
         assertEquals(testValue, expectedValue);
-        assertEquals(returnVal, expectedVal);
+        assertEquals(returnVal, 4);
 
     }
 
