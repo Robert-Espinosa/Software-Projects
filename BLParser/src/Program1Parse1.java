@@ -70,6 +70,8 @@ public final class Program1Parse1 extends Program1 {
         Reporter.assertElseFatalError(nameNotPrimative,
                 "Incorrect your identifier cant "
                         + "be equal to primative instruction");
+        Reporter.assertElseFatalError(Tokenizer.isIdentifier(name),
+                "Incorrect your identifier isnt ");
 
         //check to make sure token is equal to IS
         String is = tokens.dequeue();
@@ -82,7 +84,7 @@ public final class Program1Parse1 extends Program1 {
 
         //check to make sure token is equal to END
         String end = tokens.dequeue();
-        Boolean nameIsNotEND = is.equals("END");
+        Boolean nameIsNotEND = end.equals("END");
         Reporter.assertElseFatalError(nameIsNotEND,
                 "Incorrect Syntax for BL code require END but was" + end);
 
@@ -144,7 +146,7 @@ public final class Program1Parse1 extends Program1 {
         String is = tokens.dequeue();
         boolean isCheck = is.equals("IS");
         Reporter.assertElseFatalError(isCheck,
-                "Error program required the name IS but was" + is);
+                "Error program required the name IS but was " + is);
 
         Map<String, Statement> m = this.newContext();
 
@@ -161,6 +163,8 @@ public final class Program1Parse1 extends Program1 {
             m.add(name, s);
 
         }
+        //swap content back into this
+        this.swapContext(m);
 
         //check for begin key word
         String begin = tokens.dequeue();
@@ -171,26 +175,26 @@ public final class Program1Parse1 extends Program1 {
         //need to attach new block
         Statement s = this.newBody();
         s.parseBlock(tokens);
+        this.swapBody(s);
 
         //check for end key word
         String end = tokens.dequeue();
-        boolean isEND = begin.equals("END");
+        boolean isEND = end.equals("END");
         Reporter.assertElseFatalError(isEND,
                 "Error program was expeceitng word END but was " + end);
 
         //check end program name with begining
         String programNameEnd = tokens.dequeue();
-        boolean isProgramName = begin.equals(programName);
+        boolean isProgramName = programNameEnd.equals(programName);
         Reporter.assertElseFatalError(isProgramName,
                 "Error program was expeceitng word END but was "
                         + programNameEnd);
+        this.setName(programName);
 
-        boolean empty = tokens.length() == 0;
+        boolean empty = tokens.front().equals(Tokenizer.END_OF_INPUT)
+                && tokens.length() == 1;
         Reporter.assertElseFatalError(empty,
                 "Error there are more tokens after program is finished");
-
-        //swap content back into this
-        this.swapContext(m);
 
     }
 

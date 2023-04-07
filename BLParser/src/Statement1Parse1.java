@@ -65,10 +65,7 @@ public final class Statement1Parse1 extends Statement1 {
                 + "Violation of: <\"IF\"> is proper prefix of tokens";
 
         //dequeue the IF
-        String wordIf = tokens.dequeue();
-        boolean isIF = wordIf.equals("IF");
-        Reporter.assertElseFatalError(isIF,
-                "Error program was" + " expecting word IF but was " + wordIf);
+        tokens.dequeue();
 
         //get the condition
         String condition = tokens.dequeue();
@@ -112,6 +109,9 @@ public final class Statement1Parse1 extends Statement1 {
             Statement elseBlock = s.newInstance();
             elseBlock.parseBlock(tokens);
             s.assembleIfElse(assembly, state, elseBlock);
+
+            //get the end
+            tokens.dequeue();
 
             String wordIfEnd = tokens.dequeue();
             boolean isWordIfEnd = wordIfEnd.equals("IF");
@@ -171,13 +171,13 @@ public final class Statement1Parse1 extends Statement1 {
         String end = tokens.dequeue();
         boolean isEnd = end.equals("END");
         Reporter.assertElseFatalError(isEnd,
-                "Error was especting word DO but was " + end);
+                "Error was especting word END but was " + end);
 
         //check keyword WHILE for our last check
         String wordWhile = tokens.dequeue();
         boolean isWhile = end.equals("WHILE");
         Reporter.assertElseFatalError(isWhile,
-                "Error was especting word DO but was " + wordWhile);
+                "Error was especting word WHILE but was " + wordWhile);
 
         Condition con = parseCondition(condition);
         s.assembleWhile(con, s2);
@@ -234,22 +234,15 @@ public final class Statement1Parse1 extends Statement1 {
         assert tokens.length() > 0 : ""
                 + "Violation of: Tokenizer.END_OF_INPUT is a suffix of tokens";
 
-        //checking if first is a keyword
-        String check = tokens.front();
-        Boolean checkKeyword = Tokenizer.isKeyword(check);
-        Reporter.assertElseFatalError(checkKeyword,
-                "First token cant be a keyword");
-
-        //checking if first is an identifier
-        Boolean checkToken = Tokenizer.isIdentifier(check);
-        Reporter.assertElseFatalError(checkToken,
-                "First token cant be an identifier");
-
         if (tokens.front().equals("IF")) {
             parseIf(tokens, this);
         } else if (tokens.front().equals("WHILE")) {
             parseWhile(tokens, this);
-        } else if (tokens.front().equals("CALL")) {
+        } else {
+            String check = tokens.front();
+            Boolean checkSecond = Tokenizer.isIdentifier(check);
+            Reporter.assertElseFatalError(checkSecond,
+                    "First token cant be a identifier");
             parseCall(tokens, this);
         }
 
@@ -261,16 +254,18 @@ public final class Statement1Parse1 extends Statement1 {
         assert tokens.length() > 0 : ""
                 + "Violation of: Tokenizer.END_OF_INPUT is a suffix of tokens";
 
-        Statement s = this.newInstance();
+        this.clear();
+
         while (Tokenizer.isIdentifier(tokens.front())
                 || tokens.front().equals("IF")
                 || tokens.front().equals("WHILE")) {
 
-            this.parse(tokens);
-            s.addToBlock(s.lengthOfBlock(), this);
+            Statement s = this.newInstance();
+            s.parse(tokens);
+            this.addToBlock(this.lengthOfBlock(), s);
+
         }
 
-        this.transferFrom(s);
     }
 
     /*
