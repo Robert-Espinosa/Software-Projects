@@ -64,6 +64,61 @@ public final class Statement1Parse1 extends Statement1 {
         assert tokens.length() > 0 && tokens.front().equals("IF") : ""
                 + "Violation of: <\"IF\"> is proper prefix of tokens";
 
+        //dequeue the IF
+        String wordIf = tokens.dequeue();
+        boolean isIF = wordIf.equals("IF");
+        Reporter.assertElseFatalError(isIF,
+                "Error program was" + " expecting word IF but was " + wordIf);
+
+        //get the condition
+        String condition = tokens.dequeue();
+        boolean isCondition = Tokenizer.isCondition(condition);
+        Reporter.assertElseFatalError(isCondition,
+                "Error the program was expecting a condition but was "
+                        + condition);
+
+        //get the THEN
+        String then = tokens.dequeue();
+        boolean isThen = then.equals("THEN");
+        Reporter.assertElseFatalError(isThen,
+                "Error program was expecting word THEN but was " + then);
+
+        //parse block
+        Statement state = s.newInstance();
+        state.parseBlock(tokens);
+
+        //dequeue the end or the else for the if
+        String endOrElse = tokens.dequeue();
+        boolean end = endOrElse.equals("END");
+        boolean elseWord = endOrElse.equals("ELSE");
+
+        Reporter.assertElseFatalError(elseWord || end,
+                "Error the program was expecting and END or ELSE but was "
+                        + endOrElse);
+
+        Condition assembly = parseCondition(condition);
+
+        if (end) {
+            //assemble the if and check for final keyWord IF
+            s.assembleIf(assembly, state);
+
+            String wordIfEnd = tokens.dequeue();
+            boolean isWordIfEnd = wordIfEnd.equals("IF");
+            Reporter.assertElseFatalError(isWordIfEnd,
+                    "Error the program was expecting the word IF but was "
+                            + wordIfEnd);
+        } else {
+            //make new statement and assmble our IF ELSE block
+            Statement elseBlock = s.newInstance();
+            elseBlock.parseBlock(tokens);
+            s.assembleIfElse(assembly, state, elseBlock);
+
+            String wordIfEnd = tokens.dequeue();
+            boolean isWordIfEnd = wordIfEnd.equals("IF");
+            Reporter.assertElseFatalError(isWordIfEnd,
+                    "Error the program was expecting the word IF but was "
+                            + wordIfEnd);
+        }
     }
 
     /**
@@ -93,7 +148,39 @@ public final class Statement1Parse1 extends Statement1 {
         assert tokens.length() > 0 && tokens.front().equals("WHILE") : ""
                 + "Violation of: <\"WHILE\"> is proper prefix of tokens";
 
-        // TODO - fill in body
+        //dequeue the first while block
+        tokens.dequeue();
+
+        //check for the condtion next
+        String condition = tokens.dequeue();
+        boolean isCondition = Tokenizer.isCondition(condition);
+        Reporter.assertElseFatalError(isCondition,
+                "Error was especting condition but was " + condition);
+
+        //check for the DO keyword
+        String wordDo = tokens.dequeue();
+        boolean isDo = wordDo.equals("DO");
+        Reporter.assertElseFatalError(isDo,
+                "Error was especting word DO but was " + wordDo);
+
+        //parse statement
+        Statement s2 = s.newInstance();
+        s2.parseBlock(tokens);
+
+        //check keyword END
+        String end = tokens.dequeue();
+        boolean isEnd = end.equals("END");
+        Reporter.assertElseFatalError(isEnd,
+                "Error was especting word DO but was " + end);
+
+        //check keyword WHILE for our last check
+        String wordWhile = tokens.dequeue();
+        boolean isWhile = end.equals("WHILE");
+        Reporter.assertElseFatalError(isWhile,
+                "Error was especting word DO but was " + wordWhile);
+
+        Condition con = parseCondition(condition);
+        s.assembleWhile(con, s2);
 
     }
 
@@ -174,8 +261,16 @@ public final class Statement1Parse1 extends Statement1 {
         assert tokens.length() > 0 : ""
                 + "Violation of: Tokenizer.END_OF_INPUT is a suffix of tokens";
 
-        // TODO - fill in body
+        Statement s = this.newInstance();
+        while (Tokenizer.isIdentifier(tokens.front())
+                || tokens.front().equals("IF")
+                || tokens.front().equals("WHILE")) {
 
+            this.parse(tokens);
+            s.addToBlock(s.lengthOfBlock(), this);
+        }
+
+        this.transferFrom(s);
     }
 
     /*
