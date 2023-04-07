@@ -5,6 +5,7 @@ import components.simplewriter.SimpleWriter;
 import components.simplewriter.SimpleWriter1L;
 import components.statement.Statement;
 import components.statement.Statement1;
+import components.utilities.Reporter;
 import components.utilities.Tokenizer;
 
 /**
@@ -94,8 +95,39 @@ public final class Statement1Parse1 extends Statement1 {
         assert tokens.length() > 0 && tokens.front().equals("WHILE") : ""
                 + "Violation of: <\"WHILE\"> is proper prefix of tokens";
 
-        // TODO - fill in body
+        //dequeue the first while block
+        tokens.dequeue();
 
+        //check for the condtion next
+        String condition = tokens.dequeue();
+        boolean isCondition = Tokenizer.isCondition(condition);
+        Reporter.assertElseFatalError(isCondition,
+                "Error was especting condition but was " + condition);
+
+        //check for the DO keyword
+        String wordDo = tokens.dequeue();
+        boolean isDo = wordDo.equals(wordDo);
+        Reporter.assertElseFatalError(isDo,
+                "Error was especting word DO but was " + wordDo);
+
+        //parse statement
+        Statement s2 = s.newInstance();
+        s2.parseBlock(tokens);
+
+        //check keyword END
+        String end = tokens.dequeue();
+        boolean isEnd = end.equals("END");
+        Reporter.assertElseFatalError(isEnd,
+                "Error was especting word DO but was " + end);
+
+        //check keyword WHILE for our last check
+        String wordWhile = tokens.dequeue();
+        boolean isWhile = end.equals("WHILE");
+        Reporter.assertElseFatalError(isWhile,
+                "Error was especting word DO but was " + wordWhile);
+
+        Condition con = parseCondition(condition);
+        s.assembleWhile(con, s2);
     }
 
     /**
