@@ -1,0 +1,6 @@
+PROGRAM Test IS
+
+BEGIN
+  infect
+  
+END Test
