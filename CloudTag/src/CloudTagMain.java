@@ -1,3 +1,5 @@
+import java.util.Comparator;
+
 import components.map.Map;
 import components.map.Map1L;
 import components.set.Set;
@@ -5,6 +7,8 @@ import components.simplereader.SimpleReader;
 import components.simplereader.SimpleReader1L;
 import components.simplewriter.SimpleWriter;
 import components.simplewriter.SimpleWriter1L;
+import components.sortingmachine.SortingMachine;
+import components.sortingmachine.SortingMachine1L;
 
 /**
  * Put a short phrase describing the program here.
@@ -13,6 +17,33 @@ import components.simplewriter.SimpleWriter1L;
  *
  */
 public final class CloudTagMain {
+
+    /**
+    *
+    */
+    private static class StringLT implements Comparator<String> {
+        @Override
+        public int compare(String o1, String o2) {
+            return o1.compareTo(o2);
+        }
+    }
+
+    /**
+    *
+    */
+    private static class IntegerLT implements Comparator<Integer> {
+        @Override
+        public int compare(Integer o1, Integer o2) {
+            if (o1 < o2) {
+                return -1;
+            } else if (o1 > o2) {
+                return 1;
+            } else {
+                return 0;
+            }
+
+        }
+    }
 
     /**
      * Private constructor so this utility class cannot be instantiated.
@@ -134,7 +165,14 @@ public final class CloudTagMain {
         termsHTML(input, map);
         /*
          * Close input and output streams
+         *
          */
+
+        Comparator<String> ss = new StringLT();
+        SortingMachine<String> stringSort = new SortingMachine1L<>(ss);
+        Comparator<Integer> is = new IntegerLT();
+        SortingMachine<Integer> intSort = new SortingMachine1L<>(is);
+
         in.close();
         out.close();
         input.close();
