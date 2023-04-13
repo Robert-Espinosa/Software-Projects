@@ -51,17 +51,32 @@ public final class CloudTagMain {
     private CloudTagMain() {
     }
 
+    /**
+     *
+     * @param output
+     */
     private static void printHeader(SimpleWriter output) {
 
+        char quote = '"';
         output.println("<html>");
         output.println("<head>");
-        output.println("<title>Glossary</title>");
+        output.println("<title> top n word in input file name </title>");
+        output.println(
+                "<link href=" + quote + "http://web.cse.ohio-state.edu/software"
+                        + "/2231/web-sw2/assignments/projects/tag"
+                        + "-cloud-generator/data/tagcloud.css" + quote + "rel="
+                        + quote + "stylesheet" + quote + "type=" + quote
+                        + "text/css" + quote + ">");
+        output.println("<link href=" + quote + "tagcloud.css" + quote + "rel="
+                + quote + "stylesheet" + quote + "type=" + quote + "text/css"
+                + quote + ">");
         output.println("</head>");
+
         output.println("<body>");
-        output.println("<h2>Glossary</h2>");
-        output.println("<hr />");
-        output.println("<h3>Index</h3>");
-        output.println("<ul>");
+        output.println("<h2>" + "top n word in input file name" + "</h2>");
+        output.println("<hr>");
+        output.println("<div class=" + quote + "cdiv" + quote + ">");
+        output.println("<p class=" + quote + "cbox" + quote + ">");
 
     }
 
