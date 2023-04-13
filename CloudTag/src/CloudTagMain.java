@@ -51,6 +51,20 @@ public final class CloudTagMain {
     private CloudTagMain() {
     }
 
+    private static void printHeader(SimpleWriter output) {
+
+        output.println("<html>");
+        output.println("<head>");
+        output.println("<title>Glossary</title>");
+        output.println("</head>");
+        output.println("<body>");
+        output.println("<h2>Glossary</h2>");
+        output.println("<hr />");
+        output.println("<h3>Index</h3>");
+        output.println("<ul>");
+
+    }
+
     /**
      * The method reads an input as a string and stores terms and definitions
      * into a map.
