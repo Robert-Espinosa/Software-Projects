@@ -1,5 +1,6 @@
 import components.map.Map;
 import components.map.Map1L;
+import components.set.Set;
 import components.simplereader.SimpleReader;
 import components.simplereader.SimpleReader1L;
 import components.simplewriter.SimpleWriter;
@@ -52,6 +53,61 @@ public final class CloudTagMain {
             count = 0;
         }
 
+    }
+
+    /**
+     * This method combs through the given text description and returns the
+     * first word or separator starting from the given position.
+     *
+     * @param description
+     *            the description for a given word
+     * @param separatorSet
+     *            set full of all possible separators
+     * @param position
+     *            the index position in the description
+     * @return word word variable which contains either a word or a separator
+     * @requires 0 <= position < |text|
+     * @ensures <pre>
+     * nextWordOrSeparator =
+     *   text[position, position + |nextWordOrSeparator|)  and
+     * if entries(text[position, position + 1)) intersection separators = {}
+     * then
+     *   entries(nextWordOrSeparator) intersection separators = {}  and
+     *   (position + |nextWordOrSeparator| = |text|  or
+     *    entries(text[position, position + |nextWordOrSeparator| + 1))
+     *      intersection separators /= {})
+     * else
+     *   entries(nextWordOrSeparator) is subset of separators  and
+     *   (position + |nextWordOrSeparator| = |text|  or
+     *    entries(text[position, position + |nextWordOrSeparator| + 1))
+     *      is not subset of separators)
+     * </pre>
+     */
+    private static String nextWordOrSeparator(String description,
+            Set<Character> separatorSet, int position) {
+
+        String word = "";
+        boolean check = true;
+
+        if (separatorSet.contains(description.charAt(position))) {
+            for (int i = position; i < description.length() && check; i++) {
+                if (separatorSet.contains(description.charAt(i))) {
+                    word += description.charAt(i);
+                } else {
+                    check = false;
+                }
+            }
+        } else {
+            for (int i = position; i < description.length() && check; i++) {
+                if (!separatorSet.contains(description.charAt(i))) {
+                    word += description.charAt(i);
+                } else {
+                    check = false;
+                }
+            }
+        }
+
+        return word;
     }
 
     /**
